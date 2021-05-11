@@ -11,9 +11,9 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import EcoIcon from '@material-ui/icons/Eco';
 import Typography from '@material-ui/core/Typography';
-import {Select, MenuItem, InputLabel , FormControl} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core";
-import  Autocomplete from "@material-ui/lab/Autocomplete"
+import { Select, MenuItem, InputLabel, FormControl } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete"
 
 const useStyles = makeStyles((theme) => ({
     basic: {
@@ -58,39 +58,39 @@ const AddLeads = () => {
     const classes = useStyles();
     const statesList = [
         {
-            "state" : "delhi",
-            "zones": ["north","northeast","east","southeast","south","southwest","west","northwest","shahdara","central","newdelhi"]
+            "city": "delhi",
+            "zones": ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "shahdara", "central", "newdelhi"]
         },
         {
-            "state" : "Uttar Pradesh",
-            "zones": ["north","northeast","east","southeast","south","southwest","west","northwest","shahdara","central","newdelhi"]
+            "city": "Uttar Pradesh",
+            "zones": ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "shahdara", "central", "newdelhi"]
         },
         {
-            "state" : "Haryana",
-            "zones": ["north","northeast","east","southeast","south","southwest","west","northwest","shahdara","central","newdelhi"]
+            "city": "Haryana",
+            "zones": ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "shahdara", "central", "newdelhi"]
         }
     ]
 
-    const [state , setState] = React.useState("");
-    const [zone , setZone] = React.useState(null);
-    const [isState , setIsState] = React.useState(false);
-    const [selectedstate , setselectedstate] = React.useState(null);
+    const [city, setCity] = React.useState("select");
+    const [zone, setZone] = React.useState(null);
+    const [isState, setIsState] = React.useState(false);
+    const [selectedstate, setselectedstate] = React.useState(null);
 
 
-    const onStateSelect =  (e) => {
-        setState(e.target.value)
-        console.log(state ,e.target.value)
-    }
-
+    // const onCitySelect = (e) => {
+    //     setCity(e.target.value)
+    //     console.log(city, e.target.value)
+    // }
+    console.log(city);
     return (
         <section className={classes.basic}>
             <Grid container component="main" className={classes.root}>
-                <CssBaseline/>
-                <Grid item xs={false} sm={4} md={7} className={classes.image}/>
+                <CssBaseline />
+                <Grid item xs={false} sm={4} md={7} className={classes.image} />
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <div className={classes.paper}>
                         <Avatar className={classes.avatar}>
-                            <EcoIcon/>
+                            <EcoIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Be a Pillar to the socity provide leads
@@ -107,19 +107,24 @@ const AddLeads = () => {
                             />
 
                             <FormControl>
-                            <Select
-                                variant="outlined"
-                                required
-                                fullWidth
-                                className={classes.formElement}
-                                value={state}
-                                onChange={onStateSelect}
-                            >
-                                {statesList.map((e) =>  <MenuItem value={e.state} key={e.state}>{e.state}</MenuItem>) }
-                            </Select>
+                                <Select
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    className={classes.formElement}
+                                    value={city}
+                                    onChange={(e) => setCity(e.target.value)}
+                                >
+                                    <MenuItem value='select'>select city</MenuItem>
+                                    {
+                                        statesList.map(({ city }, idx) =>
+                                            <MenuItem value={city} key={idx}>
+                                                {city}
+                                            </MenuItem>
+                                        )
+                                    }
+                                </Select>
                             </FormControl>
-
-
 
                             <TextField
                                 variant="outlined"
@@ -155,7 +160,7 @@ const AddLeads = () => {
                     </div>
                 </Grid>
             </Grid>
-        </section>
+        </section >
     )
 }
 
