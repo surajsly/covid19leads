@@ -143,7 +143,7 @@ const AddLeads = () => {
         //     remark
         // );
 
-        // to add data to db
+        // add data to db
         db.collection('covid-19-Leads').add({
             city: city,
             name: name,
