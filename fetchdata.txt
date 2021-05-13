@@ -1,0 +1,17 @@
+import db from '../../firebase'
+const [covidData, setCovidData] = React.useState();
+
+     useEffect(() => {
+   db.collection('covid-19-Leads').onSnapshot((snapshot) => {
+            return (
+                 setCovidData(snapshot.docs.map((doc) => {
+                     return ({
+                         id: doc.id,
+                         data: doc.data() // object consisting of all the data which we have added
+                     })
+                 }))
+            )
+         })
+     }, [])
+
+     console.log('codiv data 😎', covidData); //covidData array of objects having all data
