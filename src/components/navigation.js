@@ -19,8 +19,8 @@ const headersData = [
     href: "/addleads",
   },
   {
-    label: "Mentors",
-    href: "/mentors",
+    label: "Leads",
+    href: "/findLeads",
   },
   {
     label: "My Account",
