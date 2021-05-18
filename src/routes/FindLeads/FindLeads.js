@@ -1,5 +1,7 @@
 import React from "react";
 import classNames from "classnames";
+import { resources, statesList } from "../../components/dataResoursces";
+import db from "../../firebase";
 import {
   makeStyles,
   Typography,
@@ -8,6 +10,7 @@ import {
   MenuItem,
   Button,
 } from "@material-ui/core";
+import CardList from "../../components/CardList";
 
 const useStyles = makeStyles((theme) => ({
   basic: {
@@ -62,65 +65,6 @@ const useStyles = makeStyles((theme) => ({
 
 const FindLeads = () => {
   const classes = useStyles();
-  const statesList = [
-    {
-      city: "delhi",
-      zones: [
-        "north",
-        "northeast",
-        "east",
-        "southeast",
-        "south",
-        "southwest",
-        "west",
-        "northwest",
-        "shahdara",
-        "central",
-        "newdelhi",
-      ],
-    },
-    {
-      city: "Uttar Pradesh",
-      zones: [
-        "north",
-        "northeast",
-        "east",
-        "southeast",
-        "south",
-        "southwest",
-        "west",
-        "northwest",
-        "shahdara",
-        "central",
-        "newdelhi",
-      ],
-    },
-    {
-      city: "Haryana",
-      zones: [
-        "north",
-        "northeast",
-        "east",
-        "southeast",
-        "south",
-        "southwest",
-        "west",
-        "northwest",
-        "shahdara",
-        "central",
-        "newdelhi",
-      ],
-    },
-  ];
-
-  const resources = [
-    "Oxygen",
-    "Medicines",
-    "Blood",
-    "Testing",
-    "Vaccine",
-    "Ambulance",
-  ];
 
   const handlecity = (e) => {
     setCity(e.target.value);
@@ -132,12 +76,29 @@ const FindLeads = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(city, zone, selectedResource);
+    db.collection("covid-19-Leads")
+      .where("city", "==", city)
+      .where("zone", "==", zone)
+      .where("selectedResource", "==", selectedResource)
+      .onSnapshot((snapshot) => {
+        return setCovidData(
+          snapshot.docs.map((doc) => {
+            return {
+              id: doc.id,
+              data: doc.data(), // object consisting of all the data which we have added
+            };
+          })
+        );
+      });
+    console.log(covidData);
   };
 
   const [city, setCity] = React.useState("select");
   const [zone, setZone] = React.useState("select");
   const [zoneOptions, setZoneOptions] = React.useState();
   const [selectedResource, setSelectedResource] = React.useState("select");
+  const [covidData, setCovidData] = React.useState();
 
   return (
     <section className={classes.basic}>
@@ -212,13 +173,15 @@ const FindLeads = () => {
             type="submit"
             variant="contained"
             color="primary"
-            fullwidth
             className={classes.submitBtn}
           >
             Search
           </Button>
         </form>
       </div>
+      <section className={classes.basic}>
+        <CardList covidData={covidData} />
+      </section>
     </section>
   );
 };

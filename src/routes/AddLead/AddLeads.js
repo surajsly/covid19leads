@@ -1,20 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
-import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import EcoIcon from "@material-ui/icons/Eco";
 import Typography from "@material-ui/core/Typography";
-import { Select, MenuItem, InputLabel, FormControl } from "@material-ui/core";
+import { Select, MenuItem, FormControl } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import db from "../../firebase";
+import { resources, statesList } from "../../components/dataResoursces";
 
 const useStyles = makeStyles((theme) => ({
   basic: {
@@ -59,65 +55,6 @@ const useStyles = makeStyles((theme) => ({
 
 const AddLeads = () => {
   const classes = useStyles();
-  const statesList = [
-    {
-      city: "delhi",
-      zones: [
-        "north",
-        "northeast",
-        "east",
-        "southeast",
-        "south",
-        "southwest",
-        "west",
-        "northwest",
-        "shahdara",
-        "central",
-        "newdelhi",
-      ],
-    },
-    {
-      city: "Uttar Pradesh",
-      zones: [
-        "north",
-        "northeast",
-        "east",
-        "southeast",
-        "south",
-        "southwest",
-        "west",
-        "northwest",
-        "shahdara",
-        "central",
-        "newdelhi",
-      ],
-    },
-    {
-      city: "Haryana",
-      zones: [
-        "north",
-        "northeast",
-        "east",
-        "southeast",
-        "south",
-        "southwest",
-        "west",
-        "northwest",
-        "shahdara",
-        "central",
-        "newdelhi",
-      ],
-    },
-  ];
-
-  const resources = [
-    "Oxygen",
-    "Medicines",
-    "Blood",
-    "Testing",
-    "Vaccine",
-    "Ambulance",
-  ];
 
   const [city, setCity] = React.useState("select");
   const [zone, setZone] = React.useState("select");
