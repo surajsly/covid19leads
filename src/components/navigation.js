@@ -1,180 +1,78 @@
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  makeStyles,
-  Button,
-  IconButton,
-  Drawer,
-  Link,
-  MenuItem,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
 import React, { useState, useEffect } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Button } from "./Button";
+import { Link } from "react-router-dom";
+import "./navigation.css";
+import CloseIcon from "@material-ui/icons/Close";
+import MenuIcon from "@material-ui/icons/Menu";
 
-const headersData = [
-  {
-    label: "Add Leads",
-    href: "/addleads",
-  },
-  {
-    label: "Leads",
-    href: "/findLeads",
-  },
-  {
-    label: "My Account",
-    href: "/account",
-  },
-  {
-    label: "Log Out",
-    href: "/logout",
-  },
-];
+function Navbar() {
+  const [click, setClick] = useState(false);
+  const [button, setButton] = useState(true);
 
-const useStyles = makeStyles(() => ({
-  header: {
-    backgroundColor: "#0fafaf",
-    paddingRight: "79px",
-    paddingLeft: "118px",
-    "@media (max-width: 900px)": {
-      paddingLeft: 0,
-    },
-  },
-  logo: {
-    fontFamily: "Work Sans, sans-serif",
-    fontWeight: 600,
-    color: "#FFFEFE",
-    textAlign: "left",
-  },
-  menuButton: {
-    fontFamily: "Open Sans, sans-serif",
-    fontWeight: 700,
-    size: "18px",
-    marginLeft: "38px",
-  },
-  toolbar: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  drawerContainer: {
-    padding: "20px 30px",
-  },
-}));
+  const handleClick = () => setClick(!click);
+  const closeMobileMenu = () => setClick(false);
 
-export default function Header() {
-  const { header, logo, menuButton, toolbar, drawerContainer } = useStyles();
-
-  const [state, setState] = useState({
-    mobileView: false,
-    drawerOpen: false,
-  });
-
-  const { mobileView, drawerOpen } = state;
+  const showButton = () => {
+    if (window.innerWidth <= 960) {
+      setButton(false);
+    } else {
+      setButton(true);
+    }
+  };
 
   useEffect(() => {
-    const setResponsiveness = () => {
-      return window.innerWidth < 900
-        ? setState((prevState) => ({ ...prevState, mobileView: true }))
-        : setState((prevState) => ({ ...prevState, mobileView: false }));
-    };
-
-    setResponsiveness();
-
-    window.addEventListener("resize", () => setResponsiveness());
+    showButton();
   }, []);
 
-  const displayDesktop = () => {
-    return (
-      <Toolbar className={toolbar}>
-        {femmecubatorLogo}
-        <div>{getMenuButtons()}</div>
-      </Toolbar>
-    );
-  };
-
-  const displayMobile = () => {
-    const handleDrawerOpen = () =>
-      setState((prevState) => ({ ...prevState, drawerOpen: true }));
-    const handleDrawerClose = () =>
-      setState((prevState) => ({ ...prevState, drawerOpen: false }));
-
-    return (
-      <Toolbar>
-        <IconButton
-          {...{
-            edge: "start",
-            color: "inherit",
-            "aria-label": "menu",
-            "aria-haspopup": "true",
-            onClick: handleDrawerOpen,
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
-
-        <Drawer
-          {...{
-            anchor: "left",
-            open: drawerOpen,
-            onClose: handleDrawerClose,
-          }}
-        >
-          <div className={drawerContainer}>{getDrawerChoices()}</div>
-        </Drawer>
-
-        <div>{femmecubatorLogo}</div>
-      </Toolbar>
-    );
-  };
-
-  const getDrawerChoices = () => {
-    return headersData.map(({ label, href }) => {
-      return (
-        <Link
-          {...{
-            component: RouterLink,
-            to: href,
-            color: "inherit",
-            style: { textDecoration: "none" },
-            key: label,
-          }}
-        >
-          <MenuItem>{label}</MenuItem>
-        </Link>
-      );
-    });
-  };
-
-  const femmecubatorLogo = (
-    <Typography variant="h6" component="h1" className={logo}>
-      Covid-19 Leads
-    </Typography>
-  );
-
-  const getMenuButtons = () => {
-    return headersData.map(({ label, href }) => {
-      return (
-        <Button
-          {...{
-            key: label,
-            color: "inherit",
-            to: href,
-            component: RouterLink,
-            className: menuButton,
-          }}
-        >
-          {label}
-        </Button>
-      );
-    });
-  };
+  window.addEventListener("resize", showButton);
 
   return (
-    <header>
-      <AppBar className={header}>
-        {mobileView ? displayMobile() : displayDesktop()}
-      </AppBar>
-    </header>
+    <>
+      <nav className="navbar">
+        <div className="navbar-container">
+          <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
+            L E A D S
+          </Link>
+          <div className="menu-icon" onClick={handleClick}>
+            {click ? (
+              <CloseIcon className="fa-times" />
+            ) : (
+              <MenuIcon className="fa-bars" />
+            )}
+          </div>
+          <ul className={click ? "nav-menu active" : "nav-menu"}>
+            <li className="nav-item">
+              <Link
+                to="/addLeads"
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                Add Leads
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/findLeads"
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                Find Leads
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/resourses"
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                Resourses
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </>
   );
 }
+
+export default Navbar;
